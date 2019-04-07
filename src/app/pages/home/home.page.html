@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Surf Shop</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="!products.length">
+    <ion-item *ngFor="let item of [0, 1, 2]">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let product of products">
+      <ion-item button [routerLink]="['/details', product.id]">
+        <ion-avatar slot="start">
+          <img [src]="product.picture">
+        </ion-avatar>
+
+        <ion-label>
+          {{ product.name }}
+          <p>{{ product.description }}</p>
+          <p>{{ product.createdAt | date: 'short' }}</p>
+        </ion-label>
+
+        <ion-note color="primary" slot="end" *ngIf="product.price">{{ product.price | currency: 'BRL' }}</ion-note>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="deleteProduct(product.id)">
+          <ion-icon slot="top" name="trash"></ion-icon>
+          Excluir
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-button (click)="logout()" color="danger" expand="block">
+            Sair
+          </ion-button>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-button routerLink="/details" expand="block">
+            Add produto
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>
